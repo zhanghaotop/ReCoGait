@@ -1,5 +1,4 @@
 # ReCoGait
-# ReCoGait
 
 Official implementation of **ReCoGait: Reliability-Aware Cross-Modal Collaboration for Robust Silhouette--Skeleton Gait Recognition**.
 
