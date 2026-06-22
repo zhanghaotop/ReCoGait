@@ -34,6 +34,14 @@ ReCoGait/
 
 ## Method Overview
 
+<p align="center">
+  <img src="assets/concept.png" width="100%" alt="Comparison of ReCoGait with representative gait recognition methods across different datasets and modality settings.">
+</p>
+
+<p align="center">
+  <em>Comparison of ReCoGait with representative gait recognition methods across different datasets and modality settings. The figure highlights the performance differences among single-modal, alternative multimodal, and silhouette--skeleton collaborative approaches.</em>
+</p>
+
 ReCoGait is designed around a single objective: maintaining effective silhouette--skeleton collaboration when the two modalities are affected by different forms of degradation. Given paired silhouette sequences and dense skeleton heat maps, the framework first extracts modality-specific features in a shared representation space. It then uses cross-modal response patterns to recalibrate the complementary stream, allowing silhouette and skeleton cues to interact before deeper spatiotemporal modeling.
 
 The fused representation is subsequently processed by the backbone, where local bidirectional temporal differences are incorporated to enrich motion-sensitive features. During training, ReCoGait further estimates sequence-level skeleton reliability from the input heat maps and uses this estimate to scale an auxiliary triplet margin. In this way, reliable skeleton sequences receive stronger auxiliary discriminative supervision, while lower-reliability pairs contribute a weaker auxiliary constraint.
