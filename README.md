@@ -35,7 +35,7 @@ ReCoGait/
 ## Method Overview
 
 <p align="center">
-  <img src="assets/results.pdf" width="100%" alt="Comparison of ReCoGait with representative gait recognition methods across different datasets and modality settings.">
+  <img src="assets/result.pdf" width="100%" alt="Comparison of ReCoGait with representative gait recognition methods across different datasets and modality settings.">
 </p>
 
 <p align="center">
