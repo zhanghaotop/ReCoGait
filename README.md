@@ -34,11 +34,9 @@ ReCoGait/
 
 ## Method Overview
 
-ReCoGait contains three main components:
+ReCoGait is designed around a single objective: maintaining effective silhouette--skeleton collaboration when the two modalities are affected by different forms of degradation. Given paired silhouette sequences and dense skeleton heat maps, the framework first extracts modality-specific features in a shared representation space. It then uses cross-modal response patterns to recalibrate the complementary stream, allowing silhouette and skeleton cues to interact before deeper spatiotemporal modeling.
 
-- **Cross Gate Fusion (CGF):** Generates modality-specific gates and performs bidirectional cross-modal feature recalibration between silhouette and skeleton-map streams.
-- **Temporal Gradient Interaction (TGI):** Encodes local backward and forward temporal feature differences to enhance motion-sensitive representations.
-- **Quality-Aware Loss ($\mathcal{L}_{\mathrm{qa}}$):** Uses estimated skeleton-map reliability to adaptively scale the auxiliary triplet margin.
+The fused representation is subsequently processed by the backbone, where local bidirectional temporal differences are incorporated to enrich motion-sensitive features. During training, ReCoGait further estimates sequence-level skeleton reliability from the input heat maps and uses this estimate to scale an auxiliary triplet margin. In this way, reliable skeleton sequences receive stronger auxiliary discriminative supervision, while lower-reliability pairs contribute a weaker auxiliary constraint.
 
 The overall training objective is:
 
