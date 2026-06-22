@@ -1,0 +1,89 @@
+data_cfg:
+  dataset_name: SUSTech1K
+  dataset_root: your_path
+  dataset_partition: ./datasets/SUSTech1K/SUSTech1K.json
+  num_workers: 4
+  data_in_use: [True, True]  # skeleton heat maps, silhouettes
+  remove_no_gallery: false
+  test_dataset_name: SUSTech1K
+
+evaluator_cfg:
+  enable_float16: true
+  restore_ckpt_strict: true
+  restore_hint: 0
+  save_name: ReCoGait
+  eval_func: evaluate_indoor_dataset
+  sampler:
+    batch_shuffle: false
+    batch_size: 4
+    sample_type: all_ordered
+    frames_all_limit: 720
+  metric: euc
+  transform:
+    - type: BaseSilCuttingTransform
+
+loss_cfg:
+  - type: TripletLoss
+    log_prefix: triplet
+    loss_term_weight: 1.0
+    margin: 0.2
+
+  - type: CrossEntropyLoss
+    log_prefix: softmax
+    loss_term_weight: 1.0
+    scale: 16
+    log_accuracy: true
+
+  - type: QualityAwareTripletLoss
+    log_prefix: quality_aware
+    loss_term_weight: 1.0
+    margin: 0.3
+
+model_cfg:
+  model: ReCoGait
+  Backbone:
+    blocks: [1, 1, 1, 1]
+    C: 2
+  SeparateBNNecks:
+    class_num: 250
+  use_emb2: false
+
+optimizer_cfg:
+  solver: SGD
+  lr: 0.1
+  momentum: 0.9
+  weight_decay: 0.0005
+
+scheduler_cfg:
+  scheduler: MultiStepLR
+  gamma: 0.1
+  milestones: [20000, 30000, 40000]
+
+trainer_cfg:
+  enable_float16: true
+  fix_BN: false
+  with_test: true
+  restore_ckpt_strict: true
+  restore_hint: 0
+  save_name: ReCoGait
+  sync_BN: true
+  total_iter: 50000
+  log_iter: 100
+  save_iter: 10000
+  sampler:
+    type: TripletSampler
+    batch_shuffle: true
+    batch_size: [8, 8]  
+    frames_num_fixed: 30
+    frames_skip_num: 4
+    sample_type: fixed_ordered
+  transform:
+    - type: Compose
+      trf_cfg:
+        - type: RandomPerspective
+          prob: 0.2
+        - type: BaseSilCuttingTransform
+        - type: RandomHorizontalFlip
+          prob: 0.2
+        - type: RandomRotate
+          prob: 0.2
